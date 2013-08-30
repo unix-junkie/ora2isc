@@ -27,6 +27,8 @@ import javax.swing.border.EmptyBorder;
 public final class AboutBox extends JDialog {
 	private static final long serialVersionUID = 7027088988966908146L;
 
+	private static final String KEYWORD = "Id";
+
 	public AboutBox(final Frame parent) {
 		super(parent);
 
@@ -43,7 +45,7 @@ public final class AboutBox extends JDialog {
 		gbc_lblAboutCachueData.insets = new Insets(10, 10, 5, 10);
 		this.getContentPane().add(lblAboutCachueData, gbc_lblAboutCachueData);
 
-		final JLabel lblVersion = new JLabel("Version $Id$");
+		final JLabel lblVersion = new JLabel("Version " + getVersion());
 		final GridBagConstraints gbc_lblVersion = new GridBagConstraints();
 		gbc_lblVersion.weightx = 1.0;
 		gbc_lblVersion.gridwidth = REMAINDER;
@@ -95,5 +97,13 @@ public final class AboutBox extends JDialog {
 		gbc_btnOk.gridheight = REMAINDER;
 		gbc_btnOk.anchor = GridBagConstraints.EAST;
 		this.getContentPane().add(btnOk, gbc_btnOk);
+	}
+
+	private static String getVersion() {
+		/*
+		 * Perform a simple string concatenation here
+		 * so that the regexp doesn't get corrupted by VCS keyword expansion.
+		 */
+		return "$Id$".replaceAll("\\$" + KEYWORD + "\\:?\\ ?([^\\ \\$]*)\\ ?\\$", "$1");
 	}
 }
